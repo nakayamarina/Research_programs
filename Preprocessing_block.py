@@ -66,12 +66,12 @@
 #
 #
 
-# In[1]:
+# In[68]:
 
 print('########## Preprocessing.py program excution ############')
 
 
-# In[2]:
+# In[69]:
 
 import glob
 import sys
@@ -81,20 +81,20 @@ import matplotlib.pyplot as plt
 
 # コマンドライン引数で/Voxelディレクトリまでのパスを取得
 
-# In[3]:
+# In[70]:
 
 args = sys.argv
 PATH = args[1]
 
 # jupyter notebookのときはここで指定
-# PATH = '../tameshi/20170130ar/mb/Voxel/'
+#PATH = '../tameshi/20170130ar/12ch/Voxel/'
 
 
 # ## splitRT関数
 #
 # 引数に１ブロックのscan数を受け取り，Rest時とTapping時のデータを分けてcsvファイルで書き出し
 
-# In[45]:
+# In[78]:
 
 def splitRT(brain, number_scan):
 
@@ -102,18 +102,18 @@ def splitRT(brain, number_scan):
     # （行数 // number_scan）% 2　で割り切れる（0）ならRest，割り切れない（1）のであればTapping
     # （除算は '//' としないと小数まで計算される）
 
-    R_mask = (brain.index // number_scan) % 2 == 0
-    T_mask = (brain.index // number_scan) % 2 == 1
+    mask_R = (brain.index // number_scan) % 2 == 0
+    mask_T = (brain.index // number_scan) % 2 == 1
 
     # mask適用
-    rest_data = brain[R_mask]
-    tap_data = brain[T_mask]
+    data_rest = brain[mask_R]
+    data_tap = brain[mask_T]
 
     # csv書き出し
-    REST_PATH = PATH + '../rest_raw.csv'
-    rest_data.to_csv(REST_PATH, index = False)
-    TAP_PATH = PATH + '../tap_raw.csv'
-    tap_data.to_csv(TAP_PATH, index = False)
+    PATH_REST = PATH + '../raw_rest.csv'
+    data_rest.to_csv(PATH_REST, index = False)
+    PATH_TAP = PATH + '../raw_tap.csv'
+    data_tap.to_csv(PATH_TAP, index = False)
 
 
 # ## main関数
@@ -122,7 +122,7 @@ def splitRT(brain, number_scan):
 # * 全ボクセルデータ連結
 # * 全ボクセルデータをcsvで書き出し
 
-# In[56]:
+# In[79]:
 
 if __name__ == '__main__':
     # /Voxelディレクトリ内のcsvファイルのパスを取得
@@ -131,7 +131,7 @@ if __name__ == '__main__':
     files = glob.glob(csv_file)
 
 
-# In[53]:
+# In[80]:
 
 # 1つ目のファイルを読み込む
 
@@ -142,7 +142,7 @@ row_name = "Voxel1"
 brain = pd.read_csv(files[0], names=(row_name,))
 
 
-# In[39]:
+# In[81]:
 
 # 同様に2つ目以降のファイルをデータフレームとして読み込み，1つ目のデータフレームに横連結
 for i in range(1, len(files)):
@@ -153,14 +153,14 @@ for i in range(1, len(files)):
     brain = pd.concat([brain, data], axis = 1)
 
 
-# In[40]:
+# In[82]:
 
 # 全ボクセルデータをcsv書き出し
-BRAIN_PATH = PATH + '../all_raw.csv'
-brain.to_csv(BRAIN_PATH, index = False)
+PATH_BRAIN = PATH + '../all_raw.csv'
+brain.to_csv(PATH_BRAIN, index = False)
 
 
-# In[41]:
+# In[83]:
 
 # 12ch or 32ch Head coil の場合
 if len(brain) == 120:
@@ -168,8 +168,11 @@ if len(brain) == 120:
     splitRT(brain, 10)
 
 
-# In[43]:
+# In[84]:
 
 # 32ch Milti-band の場合
 if len(brain) == 360:
     splitRT(brain, 30)
+
+
+# In[ ]:
