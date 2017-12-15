@@ -13,9 +13,9 @@
 # ---
 #
 # 出力：
-# * all_raw.csv : すべてのボクセルのZ-scoreをまとめたもの
-# * rest_raw.csv : Rest時のZ-scoreだけをまとめたもの
-# * tap_raw.csv : Tapping時のZ-scoreだけをまとめたもの
+# * raw_all.csv : すべてのボクセルのZ-scoreをまとめたもの
+# * raw_rest.csv : Rest時のZ-scoreだけをまとめたもの
+# * raw_tap.csv : Tapping時のZ-scoreだけをまとめたもの
 #
 # ----
 #

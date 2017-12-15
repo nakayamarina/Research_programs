@@ -4,11 +4,11 @@
 # # 各ボクセルごとの時間遅れτを求める
 # ---
 #
-# 引数：tap_raw.csv/rest_raw.csvがあるディレクトリまでのパス
+# 引数：raw_tap.csv/raw_rest.csvがあるディレクトリまでのパス
 #
 # ---
 #
-# 入力：tap_raw.csv/rest_raw.csv
+# 入力：raw_tap.csv/raw_rest.csv
 #
 # ---
 #
@@ -39,7 +39,7 @@ import sys
 import pandas as pd
 
 
-# コマンドライン引数でtap_raw.csv/rest_raw.csvがあるディレクトリまでのパスを取得
+# コマンドライン引数でraw_tap.csv/raw_rest.csvがあるディレクトリまでのパスを取得
 
 # In[179]:
 
@@ -119,7 +119,7 @@ TAUs = pd.DataFrame({'TAU_Rest':tau_rest, 'TAU_Tap':tau_tap})
 # In[185]:
 
 # csv書き出し
-PATH_TAU = PATH + 'TAUautcor.csv'
+PATH_TAU = PATH + 'TAUautocor.csv'
 TAUs.to_csv(PATH_TAU, index = False)
 
 
