@@ -13,8 +13,10 @@
 # 出力：
 # * TDAvec_autocor_tap.csv：前処理をしたTapping時のデータの特徴抽出を行ったもの
 # * TDAvec_autocor_rest.csv：前処理をしたRest時のデータの特徴抽出を行ったもの
+# * TDAvec_autocor_attractor/voxel[ボクセル番号]_Tapping.png
+# * TDAvec_autocor_attractor/voxel[ボクセル番号]_Rest.png
 
-# [時間遅れτの求め方] autocor
+# [ボクセル番号]には列名にもあるボクセルの数
 
 # ---
 
@@ -51,7 +53,7 @@ print('################ TDAvec_autocor.r excution ###################')
 # コマンドライン引数でraw_tap.csv/raw_rest.csv, TAUautocor.csvがあるディレクトリまでのパスを取得
 # PATH = commandArgs(trailingOnly=TRUE)[1]
 
-PATH <- '../tameshi/20170130ar/mb/'
+PATH <- '../tameshi/20170130ar/mb/MAL5/'
 ms <- 3
 
 
@@ -60,6 +62,13 @@ PATH_attractor <- paste(DIR_attractor, '/', sep="")
 
 if(!file.exists(PATH_attractor)) {
   dir.create(DIR_attractor)
+}
+
+DIR_tda <- paste(PATH, 'TDAvec_autocor_barcode', sep="")
+PATH_tda <- paste(DIR_tda, '/', sep="")
+
+if(!file.exists(PATH_tda)) {
+  dir.create(DIR_tda)
 }
 
 
@@ -86,11 +95,19 @@ Attractor <- function(voxel, tau, voxel_no, task){
 
 }
 
-TDAvec <- function(attractor, voxel_no){
+
+TDAvec <- function(attractor, voxel_no, task){
 
   tda <- ripsDiag(X = attractor, maxdimension = 2, maxscale = ms)
 
-
+  barcode_name <- paste("Barcode Diagram (TDA) : ", task, "-voxel", voxel_no, sep="")
+  PATH_barcode <- paste(PATH_tda, "voxel", voxel_no, '_', task, '.png', sep="")
+  
+  png(PATH_barcode)
+  plot(tda$diagram, barcode = TRUE, main = barcode_name)
+  dev.off()
+  
+  df_tda <- as.data.frame(tda$diagram[, 1:3])
 
 }
 
@@ -117,7 +134,7 @@ for(i in 1:nrow(taus)){
   attractor_rest <- Attractor(voxel_rest, tau_rest, i, "Rest")
   attractor_tap <- Attractor(voxel_tap, tau_tap, i, "Tapping")
 
-  #TDAvec(attractor_rest, i)
-  #TDAvec(attractor_tap, i)
+  TDAvec(attractor_rest, i, "Rest")
+  TDAvec(attractor_tap, i, "Tapping")
 
 }
