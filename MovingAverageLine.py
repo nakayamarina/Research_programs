@@ -13,12 +13,10 @@
 # ---
 #
 # 出力：
-# * MAL[区間]_tap.csv：Tapping時のデータに移動平均線を用いることでノイズ除去をしたもの
-# * MAL[区間]_rest.csv：Rest時のデータに移動平均線を用いることでノイズ除去をしたもの
-# * MAL[区間]_tap：Tappin時の各ボクセルの元データと移動平均線を重ねてプロットしたpngファイルを保存するディレクトリ
-# * MAL[区間]_rest：Rest時の各ボクセルの元データと移動平均線を重ねてプロットしたpngファイルを保存するディレクトリ
-# * /MAL[区間]_tap/voxel[ボクセル番号].png：Tapping時の各ボクセルの元データと移動平均線を重ねてプロットしたもの
-# * /MAL[区間]_rest/voxel[ボクセル番号].png：Rest時の各ボクセルの元データと移動平均線を重ねてプロットしたもの
+# * MAL[区間]/raw_tap.csv：Tapping時のデータに移動平均線を用いることでノイズ除去をしたもの
+# * MAL[区間]/raw_rest.csv：Rest時のデータに移動平均線を用いることでノイズ除去をしたもの
+# * MAL[区間]/MAL_image/voxel[ボクセル番号]_Tapping.png：Tapping時の各ボクセルの元データと移動平均線を重ねてプロットしたもの
+# * MAL[区間]/MAL_image/voxel[ボクセル番号]_Rest.png：Rest時の各ボクセルの元データと移動平均線を重ねてプロットしたもの
 #
 # [区間]には移動平均線を求める際の区間数 変数section
 # [ボクセル番号]には列名にもあるボクセルの数
@@ -32,12 +30,12 @@
 #
 # において，ノイズ除去をしたいものに対しては移動平均線（MAL : Moving Average Line）を用いる．
 
-# In[84]:
+# In[131]:
 
 print('########## MovingAverageLine.py program excution ############')
 
 
-# In[85]:
+# In[132]:
 
 import numpy as np
 import pandas as pd
@@ -51,16 +49,37 @@ import matplotlib.pyplot as plt
 
 # コマンドライン引数でtap_raw.csv/rest_raw.csvがあるディレクトリまでのパスを取得
 
-# In[86]:
+# In[133]:
 
 args = sys.argv
 PATH = args[1]
 
 # jupyter notebookのときはここで指定
-#PATH = '../tameshi/20170130ar/mb/'
+#PATH = '../tameshi/20170130ar/mb/RawData/'
 
 # 移動平均線で用いる区間
 section = 5
+
+
+# 後で出力するcsvファイルを保存するディレクトリ（MAL[区間]）、pngファイルを保存するディレクトリ（MAL_image）を作成
+
+# In[139]:
+
+# MAL[区間]のディレクトリ名・パス
+DIR_MAL = PATH + '../MAL' + str(section)
+PATH_MAL = DIR_MAL + '/'
+
+# すでに存在する場合は何もせず，存在していない場合はディレクトリ作成
+if not os.path.exists(DIR_MAL):
+    os.mkdir(DIR_MAL)
+
+# MAL_imageのディレクトリ名・パス
+DIR_image = PATH_MAL + 'MAL_image'
+PATH_image = DIR_image + '/'
+
+# すでに存在する場合は何もせず，存在していない場合はディレクトリ作成
+if not os.path.exists(DIR_image):
+    os.mkdir(DIR_image)
 
 
 # ## MAL関数
@@ -69,9 +88,9 @@ section = 5
 # * Rest, Tappingの各ボクセルごとの移動平均線を求めて元データとの比較用にplot --> pngで出力，上記ディレクトリに保存
 # * Rest, Tappingの各ボクセルごとの移動平均線を求めて返す
 
-# In[99]:
+# In[135]:
 
-def MAL(data, DIR_MAL, task):
+def MAL(data, task):
 
     # 求めた移動平均線を格納するためのデータフレームを準備する
     # =だけではコピー元の値も変わってしまうので、copy()を使う
@@ -92,7 +111,7 @@ def MAL(data, DIR_MAL, task):
 
 
         # この後に出力するpngファイル名
-        FILE_NAME = DIR_MAL + '/voxel' + str(i+1) + '_' + task + '.png'
+        FILE_NAME = DIR_image + '/voxel' + str(i+1) + '_' + task + '.png'
 
         # 元データをplot
         plt.plot(data.iloc[:, i], label = 'fMRIdata')
@@ -115,9 +134,7 @@ def MAL(data, DIR_MAL, task):
         plt.savefig(FILE_NAME)
         plt.close()
 
-
-
-        print(i)
+        print(FILE_NAME)
 
     # 移動平均線を用いるとNaNが発生するので除去
     MAL_data = MAL_data.dropna()
@@ -128,7 +145,7 @@ def MAL(data, DIR_MAL, task):
 # ## main関数
 # * tap_raw.csv/rest_raw.csv読み込み
 
-# In[100]:
+# In[136]:
 
 if __name__ == '__main__':
 
@@ -142,26 +159,19 @@ if __name__ == '__main__':
     tap = pd.read_csv(PATH_tap, header = 0)
 
 
-# In[101]:
+# In[137]:
 
-# この後のMAL関数で出力するpngファイルの保存先ディレクトリ名
-DIR_MAL = PATH + 'MAL' + str(section)
+MAL_rest = MAL(rest, 'Rest')
 
-# すでに存在する場合は何もせず，存在していない場合はディレクトリ作成
-if not os.path.exists(DIR_MAL):
-    os.mkdir(DIR_MAL)
-
-MAL_rest = MAL(rest, DIR_MAL, 'Rest')
-
-MAL_tap = MAL(tap, DIR_MAL, 'Tapping')
+MAL_tap = MAL(tap, 'Tapping')
 
 
-# In[83]:
+# In[138]:
 
 # csv書き出し
-PATH_REST = PATH + 'MAL' + str(section) + '_rest.csv'
+PATH_REST = PATH_MAL + 'raw_rest.csv'
 MAL_rest.to_csv(PATH_REST, index = False)
-PATH_TAP = PATH + 'MAL' + str(section) + '_tap.csv'
+PATH_TAP = PATH_MAL + 'raw_tap.csv'
 MAL_tap.to_csv(PATH_TAP, index = False)
 
 

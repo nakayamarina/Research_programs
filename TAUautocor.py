@@ -26,12 +26,12 @@
 # 特徴的な軌道を描くとされている（カオス理論）．
 # 時間遅れτの求め方はいくつかあるが，このプログラムでは時系列データ（各ボクセルのデータ）の自己相関関数が最初に極小値をとる値をτとする．
 
-# In[174]:
+# In[186]:
 
 print('########## TAUautocor.py program excution ############')
 
 
-# In[175]:
+# In[187]:
 
 import numpy as np
 from scipy import signal
@@ -41,20 +41,20 @@ import pandas as pd
 
 # コマンドライン引数でraw_tap.csv/raw_rest.csvがあるディレクトリまでのパスを取得
 
-# In[179]:
+# In[209]:
 
 args = sys.argv
 PATH = args[1]
 
 # jupyter notebookのときはここで指定
-#PATH = '../tameshi/20170130ar/12ch/'
+#PATH = '../tameshi/20170130ar/mb/MAL5/'
 
 
 # ## autocor関数
 # 引数としてmain関数で読み込んだデータをdataで受け取る．
 # Rest, Tappingの各ボクセルごとの自己相関関数が最初に極小値をとる値を調べる --> csvファイルで書き出し
 
-# In[180]:
+# In[210]:
 
 def autocor(data):
 
@@ -86,7 +86,7 @@ def autocor(data):
 # * tap_raw.csv/rest_raw.csv読み込み
 # * autcor関数呼び出し
 
-# In[181]:
+# In[211]:
 
 if __name__ == '__main__':
 
@@ -100,23 +100,23 @@ if __name__ == '__main__':
 
 
 
-# In[182]:
+# In[212]:
 
 tau_rest = autocor(rest)
 
 
-# In[183]:
+# In[213]:
 
 tau_tap = autocor(tap)
 
 
-# In[184]:
+# In[214]:
 
 # RestとTappingの各ボクセルごとの時間遅れTAUを整形
 TAUs = pd.DataFrame({'TAU_Rest':tau_rest, 'TAU_Tap':tau_tap})
 
 
-# In[185]:
+# In[215]:
 
 # csv書き出し
 PATH_TAU = PATH + 'TAUautocor.csv'
