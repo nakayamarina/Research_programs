@@ -107,8 +107,59 @@ TDAvec <- function(attractor, voxel_no, task){
   plot(tda$diagram, barcode = TRUE, main = barcode_name)
   dev.off()
   
+  
   df_tda <- as.data.frame(tda$diagram[, 1:3])
+  
+  zeroDim <- subset(df_tda, df_tda$dimension == 0)
+  oneDim <- subset(df_tda, df_tda$dimension == 1)
+  twoDim <- subset(df_tda, df_tda$dimension == 2)
 
+  tdaVec <- c(BettiNumberCount(zeroDim), BettiNumberCount(oneDim), BettiNumberCount(twoDim))
+  
+  return(tdaVec)
+  
+}
+
+BettiNumberCount <- function(hole){
+  
+  kizamiNumber <- 300
+  kizamiWidth <- ms/kizamiNumber
+  time <- 0
+  
+  k <- 0
+  bettiNumbers <- c()
+  
+  if(nrow(hole) >= 1){
+      
+    while(k != kizamiNumber){
+      
+      bettiCount <- 0
+      
+      for(j in 1:nrow(hole)){
+      
+        if((hole$Birth[j] <= time) && (time <= hole$Death[j])){
+          
+          bettiCount = bettiCount + 1
+          
+        }
+      
+      }
+      
+      bettiNumbers <- c(bettiNumbers, bettiCount)
+      
+      time = time + kizamiWidth
+      k = k + 1
+      
+    }
+    
+  } else {
+    
+    bettiNumbers <- numeric(300)
+    
+  }
+  
+  return(bettiNumbers)
+  
 }
 
 
@@ -120,10 +171,11 @@ rest <- read.csv(PATH_rest)
 tap <- read.csv(PATH_tap)
 taus <- read.csv(PATH_tau)
 
+restVec <- c()
+tapVec <- c()
 
 
-
-for(i in 1:nrow(taus)){
+for(i in 1:3){
 
   voxel_rest <- rest[i]
   voxel_tap <- tap[i]
@@ -134,7 +186,14 @@ for(i in 1:nrow(taus)){
   attractor_rest <- Attractor(voxel_rest, tau_rest, i, "Rest")
   attractor_tap <- Attractor(voxel_tap, tau_tap, i, "Tapping")
 
-  TDAvec(attractor_rest, i, "Rest")
-  TDAvec(attractor_tap, i, "Tapping")
+  restVec <- rbind(restVec, TDAvec(attractor_rest, i, "Rest"))
+  tapVec <- rbind(tapVec, TDAvec(attractor_tap, i, "Tapping"))
 
 }
+
+PATH_restVec <- paste(PATH, 'TDAvec_autocor_rest.csv', sep = "")
+write.csv(as.data.frame(restVec), PATH_restVec, quote = FALSE, row.names = FALSE)
+
+PATH_tapVec <- paste(PATH, 'TDAvec_autocor_tap.csv', sep = "")
+write.csv(as.data.frame(tapVec), PATH_tapVec, quote = FALSE, row.names = FALSE)
+
