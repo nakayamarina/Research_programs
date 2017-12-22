@@ -47,7 +47,7 @@ args = sys.argv
 PATH = args[1]
 
 # jupyter notebookのときはここで指定
-#PATH = '../tameshi/20170130ar/mb/MAL5/'
+#PATH = '../Data_block/20170130ar/mb/MAL5/'
 
 
 # ## autocor関数
@@ -100,27 +100,27 @@ if __name__ == '__main__':
 
 
 
-# In[212]:
+    # In[212]:
 
-tau_rest = autocor(rest)
-
-
-# In[213]:
-
-tau_tap = autocor(tap)
+    tau_rest = autocor(rest)
 
 
-# In[214]:
+    # In[213]:
 
-# RestとTappingの各ボクセルごとの時間遅れTAUを整形
-TAUs = pd.DataFrame({'TAU_Rest':tau_rest, 'TAU_Tap':tau_tap})
-
-
-# In[215]:
-
-# csv書き出し
-PATH_TAU = PATH + 'TAUautocor.csv'
-TAUs.to_csv(PATH_TAU, index = False)
+    tau_tap = autocor(tap)
 
 
-# In[ ]:
+    # In[214]:
+
+    # RestとTappingの各ボクセルごとの時間遅れTAUを整形
+    TAUs = pd.DataFrame({'TAU_Rest':tau_rest, 'TAU_Tap':tau_tap})
+
+
+    # In[215]:
+
+    # csv書き出し
+    PATH_TAU = PATH + 'TAUautocor.csv'
+    TAUs.to_csv(PATH_TAU, index = False)
+
+
+    # In[ ]:

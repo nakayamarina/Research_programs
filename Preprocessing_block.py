@@ -4,7 +4,7 @@
 # # 実験（ブロックデザイン）から得られたfMRIデータの前処理
 # ----
 #
-# 引数：Y01.csv, Y02.csv,... があるディレクトリまでのパス
+# 引数：Y01.csv, Y02.csv,... の入ったVexelディレクトリがあるディレクトリまでのパス
 #
 # ---
 #
@@ -72,7 +72,7 @@
 
 # In[169]:
 
-print('########## Preprocessing.py program excution ############')
+print('########## Preprocessing_block.py program excution ############')
 
 
 # In[170]:
@@ -84,16 +84,18 @@ import matplotlib.pyplot as plt
 import os
 
 
-# コマンドライン引数で/Voxelディレクトリまでのパスを取得
+# コマンドライン引数で/Voxelディレクトリがあるディレクトリまでのパスを取得
 
 # In[171]:
 
 args = sys.argv
-PATH = args[1]
+PATH_pre = args[1]
 
 # jupyter notebookのときはここで指定
-#PATH = '../tameshi/20170130ar/12ch/Voxel/'
+#PATH_pre = '../Data_block/20170130ar/12ch/'
 
+# /Voxelディレクトリまでのパス
+PATH = PATH_pre + 'Voxel/'
 
 # 後で出力するcsvファイルを保存するディレクトリ（RawData）、pngファイルを保存するディレクトリ（Raw_image）を作成
 
@@ -194,48 +196,48 @@ if __name__ == '__main__':
     files = glob.glob(csv_file)
 
 
-# In[176]:
+    # In[176]:
 
-# 1つ目のファイルを読み込む
+    # 1つ目のファイルを読み込む
 
-# 列名
-row_name = "Voxel1"
+    # 列名
+    row_name = "Voxel1"
 
-# 列名をつけてデータフレームとして読み込み（row_nameの後に','をつけることで1列だけ名前をつけることができる）
-brain = pd.read_csv(files[0], names=(row_name,))
-
-
-# In[177]:
-
-# 同様に2つ目以降のファイルをデータフレームとして読み込み，1つ目のデータフレームに横連結
-for i in range(1, len(files)):
-
-    row_name = "Voxel" + str(i+1)
-    data = pd.read_csv(files[i], names=(row_name,))
-
-    brain = pd.concat([brain, data], axis = 1)
+    # 列名をつけてデータフレームとして読み込み（row_nameの後に','をつけることで1列だけ名前をつけることができる）
+    brain = pd.read_csv(files[0], names=(row_name,))
 
 
-# In[178]:
+    # In[177]:
 
-# 全ボクセルデータをcsv書き出し
-PATH_BRAIN = PATH_RAW + 'all_raw.csv'
-brain.to_csv(PATH_BRAIN, index = False)
+    # 同様に2つ目以降のファイルをデータフレームとして読み込み，1つ目のデータフレームに横連結
+    for i in range(1, len(files)):
 
+        row_name = "Voxel" + str(i+1)
+        data = pd.read_csv(files[i], names=(row_name,))
 
-# In[179]:
-
-# 12ch or 32ch Head coil の場合
-if len(brain) == 120:
-
-    splitRT(brain, 10)
+        brain = pd.concat([brain, data], axis = 1)
 
 
-# In[180]:
+    # In[178]:
 
-# 32ch Milti-band の場合
-if len(brain) == 360:
-    splitRT(brain, 30)
+    # 全ボクセルデータをcsv書き出し
+    PATH_BRAIN = PATH_RAW + 'all_raw.csv'
+    brain.to_csv(PATH_BRAIN, index = False)
 
 
-# In[ ]:
+    # In[179]:
+
+    # 12ch or 32ch Head coil の場合
+    if len(brain) == 120:
+
+        splitRT(brain, 10)
+
+
+    # In[180]:
+
+    # 32ch Milti-band の場合
+    if len(brain) == 360:
+        splitRT(brain, 30)
+
+
+    # In[ ]:

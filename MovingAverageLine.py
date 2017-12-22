@@ -55,7 +55,7 @@ args = sys.argv
 PATH = args[1]
 
 # jupyter notebookのときはここで指定
-#PATH = '../tameshi/20170130ar/mb/RawData/'
+#PATH = '../Data_block/20170130ar/mb/RawData/'
 
 # 移動平均線で用いる区間
 section = 5
@@ -159,20 +159,20 @@ if __name__ == '__main__':
     tap = pd.read_csv(PATH_tap, header = 0)
 
 
-# In[137]:
+    # In[137]:
 
-MAL_rest = MAL(rest, 'Rest')
+    MAL_rest = MAL(rest, 'Rest')
 
-MAL_tap = MAL(tap, 'Tapping')
-
-
-# In[138]:
-
-# csv書き出し
-PATH_REST = PATH_MAL + 'raw_rest.csv'
-MAL_rest.to_csv(PATH_REST, index = False)
-PATH_TAP = PATH_MAL + 'raw_tap.csv'
-MAL_tap.to_csv(PATH_TAP, index = False)
+    MAL_tap = MAL(tap, 'Tapping')
 
 
-# In[ ]:
+    # In[138]:
+
+    # csv書き出し
+    PATH_REST = PATH_MAL + 'raw_rest.csv'
+    MAL_rest.to_csv(PATH_REST, index = False)
+    PATH_TAP = PATH_MAL + 'raw_tap.csv'
+    MAL_tap.to_csv(PATH_TAP, index = False)
+
+
+    # In[ ]:
