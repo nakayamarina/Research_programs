@@ -15,7 +15,7 @@
 #
 # ---
 #
-# 出力：ACCURACY[loo][k_list].csv　識別性能評価結果一覧  
+# 出力：ACCURACY[loo][k_list].csv　識別性能評価結果一覧
 # k_listはk-分割交差検証法で用いた分割数
 #
 # ---
@@ -25,6 +25,7 @@
 #
 
 # In[199]:
+
 
 import numpy as np
 import pandas as pd
