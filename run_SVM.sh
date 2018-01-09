@@ -18,6 +18,7 @@ do
     echo "------------ ${PATH_MAL} ---------------"
     python SVM_TDAvec_autocor.py ${PATH_MAL}
 
+
   done
 
 done

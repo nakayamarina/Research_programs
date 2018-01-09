@@ -15,7 +15,8 @@
 #
 # ---
 #
-# 出力：result_cmp.csv　識別性能評価結果一覧
+# 出力：ACCURACY[loo][k_list].csv　識別性能評価結果一覧  
+# k_listはk-分割交差検証法で用いた分割数
 #
 # ---
 #
@@ -233,6 +234,6 @@ if __name__ == '__main__':
     # csv書き出し
     PATH_RESULT = PATH + 'ACCURACY[loo][' + str(k_list) + '.csv'
     result_cmp.to_csv(PATH_RESULT, index = True)
-    
+
 
 # In[ ]:
