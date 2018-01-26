@@ -18,6 +18,7 @@ do
     echo "------------ ${PATH_MAL} ---------------"
     python SVM_Raw.py ${PATH_MAL}
 
+
   done
 
 done
