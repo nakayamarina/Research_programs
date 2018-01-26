@@ -11,12 +11,12 @@ do
     PATH_RAW="${PATH_DATA}${dir}${image_method}/RawData/"
 
     echo "------------ ${PATH_RAW} ---------------"
-    python SVM_TDAvec_autocor.py ${PATH_RAW}
+    python SVM_Raw.py ${PATH_RAW}
 
     PATH_MAL="${PATH_DATA}${dir}${image_method}/MAL5/"
 
     echo "------------ ${PATH_MAL} ---------------"
-    python SVM_TDAvec_autocor.py ${PATH_MAL}
+    python SVM_Raw.py ${PATH_MAL}
 
 
   done
