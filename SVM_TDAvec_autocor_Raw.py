@@ -156,6 +156,13 @@ def TrainingData(file_rest, file_tap):
     rest = pd.read_csv(PATH_rest, header = 0)
     tap = pd.read_csv(PATH_tap, header = 0)
 
+    # 時系列データをベクトル化したいので，生データの場合は転置をしておく
+    #（元の生データ　横軸：ボクセル，縦軸：scan数（時系列データ）ー＞　転置後　横軸：scan数（時系列データ），縦軸：ボクセル）
+    if file_rest == 'raw_rest.csv':
+        rest = rest.T
+        tap = tap.T
+
+
     # RestとTappingのデータをまとめる
     all_data = pd.concat([rest, tap], axis = 0)
 
@@ -233,7 +240,7 @@ if __name__ == '__main__':
     result_cmp.index = result_index
 
     # csv書き出し
-    PATH_RESULT = PATH + 'ACCURACY[loo][' + str(k_list) + '.csv'
+    PATH_RESULT = PATH + 'ACCURACY[loo]' + str(k_list) + '.csv'
     result_cmp.to_csv(PATH_RESULT, index = True)
 
 
