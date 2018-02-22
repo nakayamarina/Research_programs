@@ -58,7 +58,7 @@ PATH = args[1]
 #PATH = '../Data_block/20170130ar/mb/RawData/'
 
 # 移動平均線で用いる区間
-section = 5
+section = 10
 
 
 # 後で出力するcsvファイルを保存するディレクトリ（MAL[区間]）、pngファイルを保存するディレクトリ（MAL_image）を作成
