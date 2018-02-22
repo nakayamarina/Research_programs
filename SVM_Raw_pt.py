@@ -21,6 +21,7 @@
 # ---
 #
 # 生データをSVMを用いて学習し，交差検証法（k-分割交差検証，leave-one-out交差検証）を用いて識別性能評価を行う．
+# ベクトル：ある時刻の各ボクセルの値のパターン
 #
 #
 
@@ -35,7 +36,7 @@ from sklearn import svm
 from sklearn.model_selection import train_test_split
 
 
-# コマンドライン引数でraw_tap.csv/raw_rest.csv/TDAvec_autocor_tap.csv/TDAvec_autocor_rest.csvがあるディレクトリまでのパスを取得
+# コマンドライン引数でraw_tap.csv/raw_rest.csvがあるディレクトリまでのパスを取得
 
 # In[2]:
 
@@ -221,7 +222,7 @@ if __name__ == '__main__':
     raw_result.index = [DATA_NAME]
 
     # csv書き出し
-    PATH_RESULT = PATH + 'ACCURACY[loo]' + str(k_list) + '_Raw.csv'
+    PATH_RESULT = PATH + 'ACCURACYpt[loo]' + str(k_list) + '_Raw.csv'
     raw_result.to_csv(PATH_RESULT, index = True)
 
 

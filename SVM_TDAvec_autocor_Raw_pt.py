@@ -15,16 +15,17 @@
 #
 # ---
 #
-# 出力：ACCURACY[loo][k_list].csv　識別性能評価結果一覧
+# 出力：ACCURACYpt[loo][k_list].csv　識別性能評価結果一覧
 # k_listはk-分割交差検証法で用いた分割数
 #
 # ---
 #
 # 生データ（生データ or 生データに移動平均線を適用したデータ）と特徴抽出したデータをSVMを用いて学習し，
 # 交差検証法（k-分割交差検証，leave-one-out交差検証）を用いて識別性能評価を行う．
+# ベクトル：ある時刻の各ボクセルの値のパターン
 #
 
-# In[6]:
+# In[1]:
 
 import numpy as np
 import pandas as pd
@@ -37,7 +38,7 @@ from sklearn.model_selection import train_test_split
 
 # コマンドライン引数でraw_tap.csv/raw_rest.csv/TDAvec_autocor_tap.csv/TDAvec_autocor_rest.csvがあるディレクトリまでのパスを取得
 
-# In[7]:
+# In[2]:
 
 args = sys.argv
 PATH = args[1]
@@ -46,7 +47,7 @@ PATH = args[1]
 #PATH = '../Data_block/20170130ar/12ch/MAL5/'
 
 
-# In[8]:
+# In[3]:
 
 # RawDataディレクトリかMALディレクトリか識別用
 DIRs = PATH.split("/")
@@ -65,7 +66,7 @@ k_list = [3, 5, 7]
 # * 得られたすべてのデータ個の評価結果（識別率）の平均を求めてパーセントに直す
 # * 評価結果（識別率）をTrainingData関数に返す
 
-# In[21]:
+# In[4]:
 
 def SVM_LOO(X, y):
 
@@ -114,7 +115,7 @@ def SVM_LOO(X, y):
 # * 得られたk個の評価結果（識別率）の平均を求めてパーセントに直す
 # * 評価結果（識別率）をTrainingData関数に返す
 
-# In[22]:
+# In[5]:
 
 def SVM_kCV(X, y, k):
 
@@ -144,7 +145,7 @@ def SVM_kCV(X, y, k):
 # * データとラベルをSVM_LOO関数，SVM_kCV関数に渡す
 # * 帰ってきた識別率をまとめてmain関数に返す
 
-# In[23]:
+# In[6]:
 
 def TrainingData(file_rest, file_tap):
 
@@ -155,13 +156,6 @@ def TrainingData(file_rest, file_tap):
     # csvファイル読み込み
     rest = pd.read_csv(PATH_rest, header = 0)
     tap = pd.read_csv(PATH_tap, header = 0)
-
-    # 時系列データをベクトル化したいので，生データの場合は転置をしておく
-    #（元の生データ　横軸：ボクセル，縦軸：scan数（時系列データ）ー＞　転置後　横軸：scan数（時系列データ），縦軸：ボクセル）
-    if file_rest == 'raw_rest.csv':
-        rest = rest.T
-        tap = tap.T
-
 
     # RestとTappingのデータをまとめる
     all_data = pd.concat([rest, tap], axis = 0)
@@ -216,7 +210,7 @@ def TrainingData(file_rest, file_tap):
 
 # ## main関数
 
-# In[24]:
+# In[7]:
 
 if __name__ == '__main__':
 
@@ -240,7 +234,7 @@ if __name__ == '__main__':
     result_cmp.index = result_index
 
     # csv書き出し
-    PATH_RESULT = PATH + 'ACCURACY[loo]' + str(k_list) + '.csv'
+    PATH_RESULT = PATH + 'ACCURACYpt[loo]' + str(k_list) + '.csv'
     result_cmp.to_csv(PATH_RESULT, index = True)
 
 
