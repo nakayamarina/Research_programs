@@ -58,7 +58,7 @@ print('################ TDAvec_autocor.r excution ###################')
 PATH = commandArgs(trailingOnly=TRUE)[1]
 
 # TDAvec関数で使うripsDiagのmaxsxaleの値設定
-ms <- 3
+ms <- 2
 
 # TDAvec_autocor_attractorのディレクトリ名・パス
 DIR_attractor <- paste(PATH, 'TDAvec_autocor_attractor', sep="")
