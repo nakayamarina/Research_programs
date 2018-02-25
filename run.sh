@@ -1,4 +1,4 @@
-PATH_DATA="../Data_block/"
+PATH_DATA="../Data_block/analysis_by_programs/"
 
 DIRs=`ls -F ${PATH_DATA} | grep /`
 
