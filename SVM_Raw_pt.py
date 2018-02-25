@@ -222,7 +222,7 @@ if __name__ == '__main__':
     raw_result.index = [DATA_NAME]
 
     # csv書き出し
-    PATH_RESULT = PATH + 'ACCURACYpt[loo]' + str(k_list) + '_Raw.csv'
+    PATH_RESULT = PATH + 'ACCURACYpt[loo]' + str(k_list) + '_Raw_SVM.csv'
     raw_result.to_csv(PATH_RESULT, index = True)
 
 

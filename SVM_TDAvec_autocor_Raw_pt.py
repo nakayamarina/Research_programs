@@ -234,7 +234,7 @@ if __name__ == '__main__':
     result_cmp.index = result_index
 
     # csv書き出し
-    PATH_RESULT = PATH + 'ACCURACYpt[loo]' + str(k_list) + '.csv'
+    PATH_RESULT = PATH + 'ACCURACYpt[loo]' + str(k_list) + '_SVM.csv'
     result_cmp.to_csv(PATH_RESULT, index = True)
 
 
