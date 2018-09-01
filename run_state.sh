@@ -7,34 +7,31 @@ dir="20171020rn/"
 for image_method in 12ch 32ch mb
 do
 
-  PATH_voxel="${PATH_DATA}${dir}${image_method}/"
+  PATH_MAL3="${PATH_DATA}${dir}${image_method}/MAL3/"
 
-  echo "------------ ${PATH_voxel} ---------------"
-  python Preprocessing_state.py ${PATH_voxel}
+  echo "------------ ${PATH_MAL3} ---------------"
 
-
-  PATH_RAW="${PATH_DATA}${dir}${image_method}/RawData/"
-
-  echo "------------ ${PATH_RAW} ---------------"
-  python MovingAverageLine.py ${PATH_RAW}
-
-  python TAUautocor.py ${PATH_RAW}
-
-  Rscript TDAvec_autocor.r ${PATH_RAW}
-
-  python SVM_TDAvec_autocor_Raw_pt.py ${PATH_RAW}
-  python SVM_TDAvec_autocor_Raw_ts.py ${PATH_RAW}
+  python SVM_TDAvec_autocor_Raw_pt.py ${PATH_MAL3}
+  python SVM_TDAvec_autocor_Raw_ts.py ${PATH_MAL3}
 
 
-  PATH_MAL="${PATH_DATA}${dir}${image_method}/MAL5/"
+  PATH_MAL7="${PATH_DATA}${dir}${image_method}/MAL7/"
+
+  echo "------------ ${PATH_MAL7} ---------------"
+
+  python SVM_TDAvec_autocor_Raw_pt.py ${PATH_MAL7}
+  python SVM_TDAvec_autocor_Raw_ts.py ${PATH_MAL7}
+
+
+
+  echo "------------ ${PATH_MAL3} ---------------"
+
+  python 1dCNN_TDAvec_autocor_Raw_ts.py ${PATH_MAL3}
+
+  PATH_MAL7="${PATH_DATA}${dir}${image_method}/MAL7/"
 
   echo "------------ ${PATH_MAL} ---------------"
-  python TAUautocor.py ${PATH_MAL}
 
-  Rscript TDAvec_autocor.r ${PATH_MAL}
-
-  python SVM_TDAvec_autocor_Raw_pt.py ${PATH_MAL}
-  python SVM_TDAvec_autocor_Raw_ts.py ${PATH_MAL}
-
+  python 1dCNN_TDAvec_autocor_Raw_ts.py ${PATH_MAL7}
 
 done

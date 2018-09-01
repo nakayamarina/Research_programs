@@ -10,26 +10,30 @@ do
 
     PATH_voxel="${PATH_DATA}${dir}${image_method}/"
 
-    echo "------------ ${PATH_voxel} ---------------"
-    python Preprocessing_block.py ${PATH_voxel}
+    # echo "------------ ${PATH_voxel} ---------------"
+    # python Preprocessing_block.py ${PATH_voxel}
 
 
     PATH_RAW="${PATH_DATA}${dir}${image_method}/RawData/"
 
     echo "------------ ${PATH_RAW} ---------------"
-    python MovingAverageLine.py ${PATH_RAW}
+    # python MovingAverageLine.py ${PATH_RAW}
+    #
+    # python TAUautocor.py ${PATH_RAW}
+    #
+    # Rscript TDAvec_autocor.r ${PATH_RAW}
 
-    python TAUautocor.py ${PATH_RAW}
+    # python RAWvec_SPMts.py ${PATH_RAW}
 
-    Rscript TDAvec_autocor.r ${PATH_RAW}
+    python SVM_RAWvec_SPMts.py ${PATH_RAW}
 
-
-    PATH_MAL="${PATH_DATA}${dir}${image_method}/MAL5/"
-
-    echo "------------ ${PATH_MAL} ---------------"
-    python TAUautocor.py ${PATH_MAL}
-
-    Rscript TDAvec_autocor.r ${PATH_MAL}
+    #
+    # PATH_MAL="${PATH_DATA}${dir}${image_method}/MAL5/"
+    #
+    # echo "------------ ${PATH_MAL} ---------------"
+    # python TAUautocor.py ${PATH_MAL}
+    #
+    # Rscript TDAvec_autocor.r ${PATH_MAL}
 
 
   done
