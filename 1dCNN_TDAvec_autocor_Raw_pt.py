@@ -89,7 +89,7 @@ def ONEdCNN_LOO(X, y):
     # すべてのデータに対して行う
     for i in range(len(X)):
 
-        print('----------- LOO ' + PATH + ' ' + str(i) + '回 ---------')
+        print('----------- LOO ' + PATH + ' ' + str(i) + '回 / ' + str(len(X)) + ' ---------')
 
         # テストデータ
         X_test = X[i]
@@ -308,33 +308,32 @@ if __name__ == '__main__':
     raw_result = TrainingData('raw_rest.csv', 'raw_tap.csv')
     print('\n' + str(raw_result))
 
+
     # 特徴抽出データの識別率
 
-    # print('\n--------- Feature Extraction Data ---------')
-    # fe_result = TrainingData('TDAvec_autocor_rest.csv', 'TDAvec_autocor_tap.csv')
-    # print('\n' + str(fe_result))
-    #
-    # # 生データと特徴抽出データの識別率をまとめる
-    # result_cmp = pd.concat([raw_result, fe_result], axis = 0)
-    #
-    # # インデックス名をつける
-    # result_index = [DATA_NAME, 'TDAvec_autocor']
-    # result_cmp.index = result_index
-    #
-    # # csv書き出し
-    # PATH_RESULT = PATH + 'ACCURACYpt[loo]' + str(k_list) + '_1dCNN.csv'
-    # result_cmp.to_csv(PATH_RESULT, index = True)
+    print('\n--------- Feature Extraction Data ---------')
+    fe_result = TrainingData('TDAvec_autocor_rest.csv', 'TDAvec_autocor_tap.csv')
+    print('\n' + str(fe_result))
 
-
-    #### 急ぎ！！！
+    # 生データと特徴抽出データの識別率をまとめる
+    result_cmp = pd.concat([raw_result, fe_result], axis = 0)
 
     # インデックス名をつける
-    raw_result_index = [DATA_NAME]
-    raw_result.index = raw_result_index
+    result_index = [DATA_NAME, 'TDAvec_autocor']
+    result_cmp.index = result_index
 
     # csv書き出し
-    PATH_RESULT = PATH + 'ACCURACYpt[loo]' + str(k_list) + '_Raw_1dCNN.csv'
-    raw_result.to_csv(PATH_RESULT, index = True)
+    PATH_RESULT = PATH + 'ACCURACYpt[loo]' + str(k_list) + '_1dCNN.csv'
+    result_cmp.to_csv(PATH_RESULT, index = True)
+
+    # #生データだけ？
+    # # インデックス名をつける
+    # raw_result_index = [DATA_NAME]
+    # raw_result.index = raw_result_index
+    #
+    # # csv書き出し
+    # PATH_RESULT = PATH + 'ACCURACYpt[loo]' + str(k_list) + '_Raw_1dCNN.csv'
+    # raw_result.to_csv(PATH_RESULT, index = True)
 
 
 
