@@ -24,48 +24,7 @@
 # ----
 #
 #
-# /VoxelディレクトリのY01.csv, Y02.csv, ... のデータには，指のタッピング運動時に賦活しているとされる上位10ボクセルそれぞれのZ-score（賦活度合いみたいなもの）が記録されている．
-#
-# 実験デザインは以下のようになっており，（撮像方法は12ch, 32ch Head coil, Multi-bandの3種類）
-#
-# [12ch or 32ch Head coil]
-#
-# 120 scan（360s）
-# TR 3s / 1scan
-#
-# 1-10:	Rest
-# 11-20:  Tapping
-# 21-30:	Rest
-# 31-40:  Tapping
-# 41-50:	Rest
-# 51-60:  Tapping
-# 61-70:	Rest
-# 71-80:  Tapping
-# 81-90:	Rest
-# 91-100:  Tapping
-# 101-110: Rest
-# 111-120:  Tapping
-#
-# [32ch Multi-band]
-#
-# 360 scan（360s）
-# TR 1s / 1scan
-#
-# 1-30:	Rest
-# 31-60:  Tapping
-# 61-90:	Rest
-# 91-120:  Tapping
-# 121-150: Rest
-# 151-180: Tapping
-# 181-210: Rest
-# 211-240: Tapping
-# 241-270: Rest
-# 271-300: Tapping
-# 301-330: Rest
-# 331-360: Tapping
-#
-#
-# Z-scoreはこの実験デザインに従って記録されている．
+# /VoxelディレクトリのY01.csv, Y02.csv, ... のデータには，選択してきた数ボクセルそれぞれのZ-score（賦活度合いみたいなもの）が記録されている．
 # ここでは，Rest時とTapping時を分別して順番に並べることで時系列データを得る．
 #
 #
@@ -118,6 +77,15 @@ if not os.path.exists(DIR_image):
     os.mkdir(DIR_image)
 
 
+#TR=3の時の全スキャン数，1ブロックのスキャン数
+tr3scan = 120
+te3block = 10
+
+#TR=1の時の全スキャン数，1ブロックのスキャン数
+tr1scan = 360
+tr1block = 30
+
+
 # ## splitRT関数
 #
 # 引数に１ブロックのscan数を受け取り，Rest時とTapping時のデータを分けてcsvファイルで書き出し
@@ -166,6 +134,7 @@ def plotIMAGE(data, task):
 
         # データをplot
         plt.plot(data.iloc[:, i], label = 'fMRIdata')
+        plt.ylim(-5,5)
 
         # グラフのタイトル
         graph_name = 'fMRIdata : ' + task + '-voxel' + str(i+1)
@@ -228,16 +197,21 @@ if __name__ == '__main__':
     # In[179]:
 
     # 12ch or 32ch Head coil の場合
-    if len(brain) == 120:
+    # if len(brain) == 120:
+    if len(brain) == tr3scan:
 
-        splitRT(brain, 10)
+        # splitRT(brain, 10)
+        splitRT(brain, tr3block)
 
 
     # In[180]:
 
     # 32ch Milti-band の場合
-    if len(brain) == 360:
-        splitRT(brain, 30)
+    # if len(brain) == 360:
+    if len(brain) == tr1scan:
+
+        # splitRT(brain, 30)
+        splitRT(brain, tr1block)
 
 
     # In[ ]:
