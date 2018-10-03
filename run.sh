@@ -1,4 +1,4 @@
-PATH_DATA="../Data_state/analysis_by_programs/"
+PATH_DATA="../Data_tappingBlock-2fe_Active/analysis_by_programs/"
 
 DIRs=`ls -F ${PATH_DATA} | grep /`
 
@@ -19,52 +19,43 @@ do
     echo "------------ ${PATH_RAW} ---------------"
     # python MovingAverageLine.py ${PATH_RAW}
     #
-    # python TAUautocor.py ${PATH_RAW}
+   # python Preprocessing_state.py ${PATH_voxel}
     #
-    # Rscript TDAvec_autocor.r ${PATH_RAW}
+    # python TAUautocor.py ${PATH_RAW}
+
+    # kizami = 300, 100
+    # Rscript TDAvec_autocor_custom.r ${PATH_RAW}
+    # Rscript TDAvec_autocor_custom2.r ${PATH_RAW}
+    #
+    # # remoce 2-dim hole, 300, 100
+    # python ReVectrize_ProposedMethod.py ${PATH_RAW}
+    # python ReVectrize_ProposedMethod2.py ${PATH_RAW}
 
     # python RAWvec_SPMts.py ${PATH_RAW}
 
     # python SVM_RAWvec_SPMts.py ${PATH_RAW}
 
-    Rscript TDAvec_autocor_custom.r ${PATH_RAW}
+    #
+    # echo "------------ python ML_SVM_RAWts.py ---------------"
+    # python ML_SVM_RAWts.py ${PATH_RAW}
+    #
+    # echo "------------ python ML_1dCNN_RAWts.py ---------------"
+    # python ML_1dCNN_RAWts.py ${PATH_RAW}
+    #
 
-    python ReVectrize_ProposedMethod.py ${PATH_RAW}
+    # echo "------------ python ML_SVM_ProposedMethod.py ---------------"
+    # python ML_SVM_ProposedMethod.py ${PATH_RAW}
+    #
 
+    #
+    # echo "------------ python ML_1dCNN_ProposedMethod.py ---------------"
+    # python ML_1dCNN_ProposedMethod.py ${PATH_RAW}
 
+    # echo "------------ python ML_SVM_RAWpt.py ---------------"
+    # python ML_SVM_RAWpt.py ${PATH_RAW}
 
-    echo "------------ python ML_SVM_RAWts.py ---------------"
-    python ML_SVM_RAWts.py ${PATH_RAW}
-
-    echo "------------ python ML_1dCNN_RAWts.py ---------------"
-    python ML_1dCNN_RAWts.py ${PATH_RAW}
-
-    echo "------------ python ML_SVM_ProposedMethod4.py 300 01---------------"
-    python ML_SVM_ProposedMethod4.py ${PATH_RAW}
-
-    echo "------------ python ML_SVM_ProposedMethod3.py 100 01---------------"
-    python ML_SVM_ProposedMethod3.py ${PATH_RAW}
-
-    echo "------------ python ML_SVM_ProposedMethod2.py 300 012---------------"
-    python ML_SVM_ProposedMethod2.py ${PATH_RAW}
-
-    echo "------------ python ML_SVM_ProposedMethod.py 100 012---------------"
-    python ML_SVM_ProposedMethod.py ${PATH_RAW}
-
-    echo "------------ python ML_1dCNN_ProposedMethod4.py 300 01---------------"
-    python ML_1dCNN_ProposedMethod4.py ${PATH_RAW}
-
-    echo "------------ python ML_1dCNN_ProposedMethod4.py 100 01---------------"
-    python ML_1dCNN_ProposedMethod3.py ${PATH_RAW}
-
-    echo "------------ python ML_1dCNN_ProposedMethod4.py 300 012---------------"
-    python ML_1dCNN_ProposedMethod2.py ${PATH_RAW}
-
-    echo "------------ python ML_1dCNN_ProposedMethod4.py 100 012---------------"
-    python ML_1dCNN_ProposedMethod.py ${PATH_RAW}
-
-    echo "------------ python ML_SVM_RAWpt.py ---------------"
-    python ML_SVM_RAWpt.py ${PATH_RAW}
+    echo "------------ python ML_SVM_spm.py ---------------"
+    python ML_SVM_spm.py ${PATH_RAW}
 
     #
     # PATH_MAL="${PATH_DATA}${dir}${image_method}/MAL5/"
