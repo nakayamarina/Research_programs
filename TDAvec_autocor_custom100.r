@@ -68,8 +68,8 @@ kizamiNumber <- 100
 
 # アトラクタ図，バーコードを出力する(1) or しない (0)
 # 出力する場合の保存ディレクトリ名
-atrct_output <- 0
-barcode_output <- 0
+atrct_output <- 1
+barcode_output <- 1
 atrctName <- 'TDAvec_autocor_attractor'
 barcodeName <- 'TDAvec_autocor_barcode'
 
